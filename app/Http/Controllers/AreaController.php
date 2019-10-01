@@ -13,7 +13,7 @@ class AreaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {
         $areas = Area::orderby('id','desc')->paginate();
         return view('admin.area.index', compact('areas'))
         ->with('i',(request()->input('page', 1) - 1) * 5);
@@ -40,9 +40,9 @@ class AreaController extends Controller
         $request->validate([
             'name' => ['required','unique:areas,name'],
         ]);
-  
+
         Area::create($request->all());
-   
+
         return redirect()->route('admin.area.index')
                         ->with('success',' Area created successfully.');
     }
@@ -66,7 +66,7 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        $area = Area::findOrFail($id);    
+        $area = Area::findOrFail($id);
         return view('admin.area.edit',compact('area'));
     }
 
@@ -82,8 +82,8 @@ class AreaController extends Controller
         $validatedData = $request->validate([
             'name' => ['required','unique:areas,name']
         ]);
-            Area::whereId($id)->update($validatedData);
-            return redirect()->route('admin.area.index')->with('success', 'Edit Area is successfully updated');
+        Area::whereId($id)->update($validatedData);
+        return redirect()->route('admin.area.show',[$id])->with('success', 'Edit Area is successfully updated');
     }
 
     /**
@@ -95,7 +95,7 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         $area->delete();
-  
+
         return redirect()->route('admin.area.index')
                         ->with('success','Area deleted successfully');
     }

@@ -13,7 +13,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {
         $product = Product::orderby('description','asc')->get();
         $pctp = Product::paginate(10);
         return view('admin.product.index', compact('product','pctp'))
@@ -42,11 +42,11 @@ class ProductController extends Controller
             'code' => ['required','unique:products,code'],
             'description' => ['required','unique:products,description'],
             'accountcode' => ['required'],
-            'unitprice' => ['required']
+            'unitprice' => ['required','numeric']
         ]);
-  
+
         Product::create($request->all());
-   
+
         return redirect()->route('admin.product.index')
                         ->with('success','Product created successfully.');
     }
@@ -70,7 +70,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::findOrFail($id);    
+        $product = Product::findOrFail($id);
         return view('admin.product.edit',compact('product'));
     }
 
@@ -82,12 +82,16 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
-        $product = Product::find($id);
+    {
+        $validatedData = $request->validate([
+            'code' => ['required','unique:products,code,' . $id],
+            'description' => ['required','unique:products,description,' . $id],
+            'accountcode' => ['required'],
+            'unitprice' => ['required','numeric']
+        ]);
+        Product::whereId($id)->update($validatedData);
+        return redirect()->route('admin.product.show',[$id])->with('success', 'Edit Product is successfully updated');
 
-        if (isset($product))
-        {}
-        
     }
 
     /**
@@ -99,7 +103,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-  
+
         return redirect()->route('admin.product.index')
                         ->with('success','Product deleted successfully');
     }
@@ -110,7 +114,7 @@ class ProductController extends Controller
     }
 
     public function indexProducts(){
-        
+
         $products = Product::orderby('description','desc')->paginate();
         return view('products.index', compact('products'))
         ->with('i',(request()->input('page', 1) - 1) * 5);

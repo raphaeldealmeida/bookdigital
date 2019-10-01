@@ -86,15 +86,14 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        $request->validate([
-            'name' => ['required','unique:courses,name'],
+        $validatedData = $request->validate([
+            'name' => ['required','unique:courses,name,' . $course->id],
             'modality' => ['required'],
             'area_id' => ['required']
         ]);
 
-        Course::update($request->all());
-
-        return redirect()->route('admin.course.index')
+        $course->update($validatedData);
+        return redirect()->route('admin.course.show',[$course->id])
                         ->with('success','Course updated successfully.');
     }
 
