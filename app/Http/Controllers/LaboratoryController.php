@@ -149,4 +149,19 @@ class LaboratoryController extends Controller
 
     }
 
+    public function addProduct(Request $request){
+        $data = $request->all();
+        $lab = Laboratory::find($data['laboratory_id']);
+        $product = Product::find($data['product_id']);
+
+        $lab->products()->save($product, ['quantity' => $data['quantity']]);
+    }
+
+    public function removeProduct($laboratory_id, $product_id){
+        $lab = Laboratory::find($laboratory_id);
+        $product = Product::find($product_id);
+
+        $lab->products()->detach([$product->id]);
+        return redirect()->route('admin.laboratory.show',[$laboratory_id])->with('success', 'Product was removed');
+    }
 }

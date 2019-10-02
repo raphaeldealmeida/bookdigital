@@ -33,6 +33,7 @@ Route::get('/courses/{courses}','CourseController@showCourses');
 
 Route::get('/laboratories','LaboratoryController@indexLaboratories')->name('laboratories');
 Route::get('/laboratories/{laboratory}','LaboratoryController@showLaboratories');
+Route::post('/laboratory/product', 'LaboratoryController@addProduct')->name('laboratory.product.add');
 
 Route::get('/simulation','SimulationController@index')->name('simulation');
 
@@ -43,6 +44,8 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.','middleware' => 'auth'],functi
     Route::resource('course','CourseController');
     Route::resource('product','ProductController');
     Route::resource('laboratory','LaboratoryController');
+    Route::post('/laboratory/product', 'LaboratoryController@addProduct')->name('laboratory.product.add');
+    Route::get('/laboratory/{laboratory_id}/product/{product_id}/remove', 'LaboratoryController@removeProduct')->name('laboratory.product.remove');
     Route::get('/', 'HomeController@index')->name('index');
     Route::get('/laboratory/autocompleteproduct', 'LaboratoryController@autocompleteproduct');
 });

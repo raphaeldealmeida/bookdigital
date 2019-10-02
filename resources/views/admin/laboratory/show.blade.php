@@ -70,43 +70,29 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Description</label>
-                                                        <input type="search" name="description" class="typeahead form-control"  autocomplete="off" aria-describedby="nameHelp" placeholder="Enter description" required >
+                                                        <input type="search" class="typeahead form-control"  autocomplete="off" aria-describedby="nameHelp" placeholder="Enter description" required data-provide="typeahead">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Code</label>
-                                                        <input type="text" name="code" class="form-control"  aria-describedby="nameHelp" placeholder="Enter code" required disabled>
+                                                        <input type="text" id="code" class="form-control"  aria-describedby="nameHelp" placeholder="Enter code" required disabled>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Account Code</label>
-                                                        <input type="text" name="accountcode" class="form-control"  aria-describedby="nameHelp" placeholder="Enter account code" required disabled>
+                                                        <input type="text" id="accountcode"  class="form-control"  aria-describedby="nameHelp" placeholder="Enter account code" required disabled>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Unit Price</label>
-                                                        <input type="text" name="unitprice" class="form-control"  aria-describedby="nameHelp" placeholder="Enter unit price" required disabled>
+                                                        <input type="text" id="unitprice" class="form-control"  aria-describedby="nameHelp" placeholder="Enter unit price" required disabled>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Quantity</label>
-                                                        <input type="number" name="unitprice" class="form-control"  aria-describedby="nameHelp" placeholder="Enter quantaty" required >
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="CodeProduct">Ammount</label>
-                                                        <input type="number" name="unitprice" class="form-control"  aria-describedby="nameHelp" placeholder="Enter unit price" required disabled>
+                                                        <input type="number" id="quantity" name="quantity" class="form-control"  aria-describedby="nameHelp" placeholder="Enter quantaty" required >
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save </button>
+                                            <button type="button" id="add-product" class="btn btn-primary" disabled >Save </button>
                                             </form>
-{{--                                            <script type="text/javascript">--}}
-{{--                                                var path = "{{ url('laboratory.autocompleteproduct')}}";--}}
-{{--                                                $('input.typeahead').typeahead({--}}
-{{--                                                    source:  function (query, process) {--}}
-{{--                                                    return $.get(path, { query: query }, function (data) {--}}
-{{--                                                            return process(data);--}}
-{{--                                                        });--}}
-{{--                                                    }--}}
-{{--                                                });--}}
-{{--                                            </script>--}}
                                         </div>
                                         </div>
                                     </div>
@@ -135,22 +121,28 @@
                                                 <td>{{ (int) $product->pivot->quantity }}</td>
                                                 <td>{{ number_format((int) $product->pivot->quantity * $product->unitprice, 2) }}</td>
                                                 <td>
-                                                    <a href="" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> View</a>
-                                                    <a href="" class="btn btn-secondary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="{{ route('admin.product.show', $product->id) }}" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> View</a>
+                                                    <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="{{ route('admin.laboratory.product.remove', ['laboratory_id' => $laboratory->id, 'product_id' => $product->id]) }}" class="btn btn-danger btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-trash"></i> Remove</a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-
                 </div>
             </div>
         </div>
     </div>
         <script>
             var path = "{{ route('autocomplete') }}";
-            $('input.typeahead').typeahead({
+            var $input = $("input.typeahead");
+            var quantity = 0;
+            var product_id = 0;
+            var laboratory_id = '{{$laboratory->id}}';
+
+            $input.typeahead({
+                minLength: 3,
                 autoSelect: true,
                 displayText: function(item){ return item.description;},
                 source:  function (query, process) {
@@ -159,5 +151,62 @@
                     });
                 }
             })
+            $input.change(function() {
+                var current = $input.typeahead("getActive");
+                if (current) {
+                    // Some item from your model is active!
+                    if (current.description == $input.val()) {
+                        loadProductFields(current)
+
+                    } else {
+                        clearProductFields()
+                    }
+                } else {
+                    clearProductFields()
+                }
+            });
+
+            $('button#add-product').on('click', function (event) {
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "{{ route('admin.laboratory.product.add') }}",
+                    data: {
+                        laboratory_id: laboratory_id,
+                        product_id: product_id,
+                        quantity: $('input#quantity').val(),
+                    },
+                    headers:  {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+                    .done(function() {
+                        clearProductFields();
+                        location.reload();
+                    })
+                    .fail(function() {
+                        //alert( "error" );
+                    })
+                    .always(function() {
+                        //alert( "finished" );
+                    });
+            })
+
+            function loadProductFields( product ) {
+                $('input#code').val(product.code);
+                $('input#accountcode').val(product.accountcode);
+                $('input#unitprice').val(product.unitprice);
+                product_id = product.id;
+                $('button#add-product').attr("disabled", false);
+            }
+
+            function clearProductFields() {
+                $('input#code').val("");
+                $('input#accountcode').val("");
+                $('input#unitprice').val("");
+                $('input#quantity').val("");
+                product_id = 0;
+                $('button#add-product').attr("disabled", true)
+            }
         </script>
 @endsection
