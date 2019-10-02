@@ -48,13 +48,8 @@ class LaboratoryController extends Controller
      */
     public function create()
     {
-        $areas = $this->area::get();
-
-
-
-        //$courses = Course::all();
-
-
+        //$areas = $this->area::get();
+        $areas = Area::all();
         return view('admin.laboratory.create',compact('areas'));
     }
 

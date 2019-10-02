@@ -16,6 +16,13 @@ class Laboratory extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Products::class);
+        return $this->belongsToMany(Product::class,
+            'laboratories_courses_products', 'laboratory_course_id', 'product_id')
+            ->withPivot('quantity');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

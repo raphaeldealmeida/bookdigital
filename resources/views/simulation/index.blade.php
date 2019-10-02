@@ -19,7 +19,11 @@
                         </select>
                 </div>
                 <div class="form-group">
+                    @foreach($courses->first()->laboratories() as $laboratory)
+                        {{ dd($laboratory) }}
+                    @endforeach
                     <label for="">Which Labs are already deployed in your unit?</label>
+
                 </div>
         </div>
     </div>

@@ -126,18 +126,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($laboratory->products as $product)
                                             <tr>
-                                                <td>1111</td>
-                                                <td>teste afdasfasfda fas fasdfdasfa</td>
-                                                <td>CAPEX</td>
-                                                <td>R$ 21212.121</td>
-                                                <td>10</td>
-                                                <td>R$ 12121212</td>
+                                                <td>{{ $product->code }}</td>
+                                                <td>{{ $product->description }}</td>
+                                                <td>{{ $product->accountcode }}</td>
+                                                <td>{{ $product->unitprice }}</td>
+                                                <td>{{ (int) $product->pivot->quantity }}</td>
+                                                <td>{{ number_format((int) $product->pivot->quantity * $product->unitprice, 2) }}</td>
                                                 <td>
                                                     <a href="" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> View</a>
                                                     <a href="" class="btn btn-secondary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a>
                                                 </td>
                                             </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>

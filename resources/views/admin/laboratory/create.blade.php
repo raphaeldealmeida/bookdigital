@@ -36,6 +36,13 @@
                             <div class="form-group">
                                 <label for="AreaLaboratory">Area</label>
                                     <input type="text" name="area" class="form-control"  aria-describedby="nameHelp" placeholder="Enter area" required>
+{{--                                    <select name="area" class="form-control" required>--}}
+{{--                                        <option value="">Enter Area</option>--}}
+{{--                                        @foreach ($areas as $area)--}}
+{{--                                            <option value="{{ $area->id }}">{{ $area->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+
                             </div>
                             <div class="form-group">
                                 <label for="SizeLaboratory">Size</label>
