@@ -70,7 +70,7 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Description</label>
-                                                        <input type="search" name="description" class="typeahead form-control"  aria-describedby="nameHelp" placeholder="Enter description" required >
+                                                        <input type="search" name="description" class="typeahead form-control"  autocomplete="off" aria-describedby="nameHelp" placeholder="Enter description" required >
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="CodeProduct">Code</label>
@@ -97,16 +97,16 @@
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary">Save </button>
                                             </form>
-                                            <script type="text/javascript">
-                                                var path = "{{ url('laboratory.autocompleteproduct')}}";
-                                                $('input.typeahead').typeahead({
-                                                    source:  function (query, process) {
-                                                    return $.get(path, { query: query }, function (data) {
-                                                            return process(data);
-                                                        });
-                                                    }
-                                                });
-                                            </script>
+{{--                                            <script type="text/javascript">--}}
+{{--                                                var path = "{{ url('laboratory.autocompleteproduct')}}";--}}
+{{--                                                $('input.typeahead').typeahead({--}}
+{{--                                                    source:  function (query, process) {--}}
+{{--                                                    return $.get(path, { query: query }, function (data) {--}}
+{{--                                                            return process(data);--}}
+{{--                                                        });--}}
+{{--                                                    }--}}
+{{--                                                });--}}
+{{--                                            </script>--}}
                                         </div>
                                         </div>
                                     </div>
@@ -148,5 +148,16 @@
             </div>
         </div>
     </div>
-
+        <script>
+            var path = "{{ route('autocomplete') }}";
+            $('input.typeahead').typeahead({
+                autoSelect: true,
+                displayText: function(item){ return item.description;},
+                source:  function (query, process) {
+                    return $.get(path, { query: query }, function (data) {
+                        return process(data);
+                    });
+                }
+            })
+        </script>
 @endsection

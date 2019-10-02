@@ -119,4 +119,12 @@ class ProductController extends Controller
         return view('products.index', compact('products'))
         ->with('i',(request()->input('page', 1) - 1) * 5);
     }
+
+    public function autocomplete(Request $request){
+
+        $data = Product::select("description")
+            ->where("description","LIKE","%{$request->input('query')}%")
+            ->get();
+        return response()->json($data);
+    }
 }

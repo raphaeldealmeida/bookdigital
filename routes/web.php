@@ -26,6 +26,7 @@ Route::get('/laboratories', function () {
 
 Route::get('/products','ProductController@indexProducts')->name('products');
 Route::get('/products/{products}','ProductController@showProducts');
+Route::get('autocomplete', 'ProductController@autocomplete')->name('autocomplete');
 
 Route::get('/courses','CourseController@indexCourses')->name('courses');
 Route::get('/courses/{courses}','CourseController@showCourses');
