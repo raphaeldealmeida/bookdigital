@@ -1,5 +1,13 @@
 @extends('layouts.appadmin')
-
+@section('scripts')
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script>
+        $(document).ready(function ($) {
+            $('#data_table').DataTable();
+        });
+    </script>
+@endsection
 @section('content')
 <!--page title-->
 <div class="page-title mb-4 d-flex align-items-center">
@@ -51,7 +59,7 @@
                                 <td>{{$product->code}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->accountcode}}</td>
-                                <td>R$ {{$product->unitprice}}</td>
+                                <td>R$ @float($product->unitprice)</td>
                                 <td>{{date('d/m/Y',strtotime($product->created_at))}}</td>
                                 <td>
                                     <a href="{{ route('admin.product.show', $product->id)}}" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> View</a>

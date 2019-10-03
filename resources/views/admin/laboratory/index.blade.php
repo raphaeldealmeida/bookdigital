@@ -1,5 +1,13 @@
 @extends('layouts.appadmin')
-
+@section('scripts')
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script>
+        $(document).ready(function ($) {
+            $('#data_table').DataTable();
+        });
+    </script>
+@endsection
 @section('content')
 <!--page title-->
 <div class="page-title mb-4 d-flex align-items-center">
@@ -49,7 +57,7 @@
                             <tr>
                                 <td class="text-center">{{ ++$i }}</td>
                                 <td>{{$laboratory->name}}</td>
-                                <td>{{$laboratory->area}} M²</td>
+                                <td>@float($laboratory->area) M²</td>
                                 <td>{{$laboratory->size}}</td>
                                 <td>{{$laboratory->semester}}</td>
                                 <td>{{date('d/m/Y',strtotime($laboratory->created_at))}}</td>

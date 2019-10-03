@@ -30,10 +30,10 @@
                         @foreach ($newLaboratories as $laboratory)
                             <tr>
                                 <td>{{$laboratory->name}}</td>
-                                <td>{{$laboratory->area}} M²</td>
+                                <td>@float($laboratory->area) M²</td>
                                 <td>{{$laboratory->size}}</td>
                                 <td>{{$laboratory->semester}}</td>
-                                <td>{{ number_format((int) $laboratory->ProductsSumPrice, 2)}}</td>
+                                <td>R$ @float($laboratory->ProductsSumPrice)</td>
                                 <td>
                                     <a href="{{ url('laboratories', $laboratory->id)}}" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> Show</a>
                                 </td>
@@ -58,7 +58,7 @@
                         @foreach ($oldLaboratories as $laboratory)
                             <tr>
                                 <td>{{$laboratory->name}}</td>
-                                <td>{{$laboratory->area}} M²</td>
+                                <td>@float($laboratory->area) M²</td>
                                 <td>{{$laboratory->size}}</td>
                                 <td>{{$laboratory->semester}}</td>
                                 <td>

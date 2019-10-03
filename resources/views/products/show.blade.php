@@ -19,8 +19,8 @@
                                 <dt class="col-sm-3">Account Code: </dt>
                                     <dd class="col-sm-9">{{$products->accountcode}}</dd>
                                 <dt class="col-sm-3">Unit Price: </dt>
-                                 <dd class="col-sm-9">R$ {{$products->unitprice}}</dd>
-                            </dl>  
+                                 <dd class="col-sm-9">R$ @float($products->unitprice)</dd>
+                            </dl>
                         </div>
                 </div>
             </div>

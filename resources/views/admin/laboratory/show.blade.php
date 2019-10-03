@@ -35,7 +35,7 @@
                             <dt class="col-sm-3">Name</dt>
                             <dd class="col-sm-9">{{$laboratory->name}}</dd>
                             <dt class="col-sm-3">Area</dt>
-                            <dd class="col-sm-9">{{$laboratory->area}}</dd>
+                            <dd class="col-sm-9">@float($laboratory->area) M²</dd>
                             <dt class="col-sm-3">Size</dt>
                             <dd class="col-sm-9">{{$laboratory->size}}</dd>
                             <dt class="col-sm-3">Semester</dt>
@@ -119,7 +119,7 @@
                                                 <td>{{ $product->accountcode }}</td>
                                                 <td>{{ $product->unitprice }}</td>
                                                 <td>{{ (int) $product->pivot->quantity }}</td>
-                                                <td>{{ number_format((int) $product->pivot->quantity * $product->unitprice, 2) }}</td>
+                                                <td>R$ @float($product->pivot->quantity * $product->unitprice)</td>
                                                 <td>
                                                     <a href="{{ route('admin.product.show', $product->id) }}" class="btn btn-primary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-eye"></i> View</a>
                                                     <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-secondary btn-sm rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a>

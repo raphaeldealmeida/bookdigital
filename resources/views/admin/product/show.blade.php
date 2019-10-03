@@ -32,17 +32,17 @@
                             <dt class="col-sm-3">Account Code</dt>
                             <dd class="col-sm-9">{{$product->accountcode}}</dd>
                             <dt class="col-sm-3">Unit Price</dt>
-                            <dd class="col-sm-9">R$ {{$product->unitprice}}</dd>
+                            <dd class="col-sm-9">R$ @float($product->unitprice)</dd>
                             <dt class="col-sm-3">Create at</dt>
                             <dd class="col-sm-9">{{$product->created_at}}</dd>
-                        </dl>                        
-                        <div class="text-center"> 
+                        </dl>
+                        <div class="text-center">
                             <form action="{{ route('admin.product.destroy', $product->id)}}" method="post">
-                                <a href="{{ route('admin.product.edit', $product->id)}}" class="btn btn-purple rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a> 
+                                <a href="{{ route('admin.product.edit', $product->id)}}" class="btn btn-purple rounded-1 text-white" role="button" aria-pressed="true"><i class="fas fa-edit"></i> Edit</a>
                                     @csrf
-                                    @method('DELETE')      
-                                    <button type="submit" class="btn btn-danger rounded-1 text-white"><i class="fas fa-trash"></i> Delete</button>                                     
-                            </form>                                  
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger rounded-1 text-white"><i class="fas fa-trash"></i> Delete</button>
+                            </form>
                         </div>
                     </div>
             </div>

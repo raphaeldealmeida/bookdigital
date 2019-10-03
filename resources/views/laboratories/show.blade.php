@@ -15,7 +15,7 @@
                                 <dt class="col-sm-3">Name: </dt>
                                     <dd class="col-sm-9">{{$laboratory->name}}</dd>
                                 <dt class="col-sm-3">Area: </dt>
-                                    <dd class="col-sm-9">{{$laboratory->area}} M²</dd>
+                                    <dd class="col-sm-9">@float($laboratory->area) M²</dd>
                                 <dt class="col-sm-3">Size: </dt>
                                     <dd class="col-sm-9">{{$laboratory->size}}</dd>
                                 <dt class="col-sm-3">Semester: </dt>

@@ -1,5 +1,12 @@
 @extends('layouts.appadmin')
-
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function($){
+            $('input[name="area"]').mask('000.000.000.000.000,00', {reverse: true});
+        });
+    </script>
+@endsection
 @section('content')
 <!--page title-->
     <div class="page-title mb-4 d-flex align-items-center">
@@ -36,13 +43,6 @@
                             <div class="form-group">
                                 <label for="AreaLaboratory">Area</label>
                                     <input type="text" name="area" class="form-control"  aria-describedby="nameHelp" placeholder="Enter area" required>
-{{--                                    <select name="area" class="form-control" required>--}}
-{{--                                        <option value="">Enter Area</option>--}}
-{{--                                        @foreach ($areas as $area)--}}
-{{--                                            <option value="{{ $area->id }}">{{ $area->name }}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-
                             </div>
                             <div class="form-group">
                                 <label for="SizeLaboratory">Size</label>
