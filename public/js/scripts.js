@@ -104,6 +104,14 @@
          --------------------------------------------- */
         $('[data-toggle="popover"]').popover();
 
+        $('select#course').on('change', function (event) {
+            $('form#simulation').submit();
+            //let url = $(this).attr('data-url');
+            //$('.form-check').remove();
+            //$.get(url)
+
+        })
+
 
     });
 

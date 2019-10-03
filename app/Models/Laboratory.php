@@ -29,4 +29,10 @@ class Laboratory extends Model
     {
         return $this->belongsTo(Area::class);
     }
+
+    public function getProductsSumPriceAttribute(): float {
+        return $this->products->sum(function ($product) {
+            return $product->unitprice * $product->pivot->quantity;
+        });
+    }
 }

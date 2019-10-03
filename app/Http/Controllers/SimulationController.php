@@ -22,11 +22,27 @@ class SimulationController extends Controller
         $this->laboratory = $laboratory;
         $this->product = $product;
     }
-    public function index()
+    public function index(Request $request)
     {
         $courses = $this->course->get();
-        return view('simulation.index',compact('courses'));
+        if($course_id = $request->get('course_id')){
+            $course = $courses->find($course_id);
+            $courses->prepend($course);
+            $courses = $courses->unique();
+        }
 
+        return view('simulation.index',compact('courses'));
     }
 
+    public function report(Request $request)
+    {
+        $course_id = $request->get('course_id');
+        $course = Course::find($course_id);
+
+        $laboratoriesId = $request->get('laboratories', []);
+        $newLaboratories = $course->laboratories->except($laboratoriesId);
+        $oldLaboratories = $course->laboratories->only($laboratoriesId);
+
+        return view('simulation.report',compact('course', 'newLaboratories', 'oldLaboratories'));
+    }
 }

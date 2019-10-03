@@ -105,5 +105,6 @@
     <script src="{{ asset('js/jquery.dcjqaccordion.2.7.js') }}" defer></script>
     <script src="{{ asset('js/jquery.nicescroll.min.js') }}" defer></script>
     <script src="{{ asset('js/scripts.js') }}" defer></script>
+    @yield('scripts')
 </body>
 </html>

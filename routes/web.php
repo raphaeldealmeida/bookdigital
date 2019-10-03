@@ -36,6 +36,7 @@ Route::get('/laboratories/{laboratory}','LaboratoryController@showLaboratories')
 Route::post('/laboratory/product', 'LaboratoryController@addProduct')->name('laboratory.product.add');
 
 Route::get('/simulation','SimulationController@index')->name('simulation');
+Route::post('/simulation/report','SimulationController@report')->name('simulation.report');
 
 Auth::routes();
 
