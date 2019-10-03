@@ -4,12 +4,12 @@
 <!--page title-->
     <div class="page-title mb-4 d-flex align-items-center">
         <div class="mr-auto">
-            <h4 class="weight500 d-inline-block pr-3 mr-3 border-right">Product</h4>
+            <h4 class="weight500 d-inline-block pr-3 mr-3 border-right">Laboratory</h4>
                 <nav aria-label="breadcrumb" class="d-inline-block ">
                     <ol class="breadcrumb p-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.index')}}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.product.index')}}">Products</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.laboratory.index')}}">Laboratories</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Laboratory</li>
                     </ol>
                 </nav>
         </div>
@@ -20,35 +20,58 @@
             <div class="card card-shadow mb-4">
                 <div class="card-header border-0">
                     <div class="custom-title-wrap bar-primary">
-                    <div class="custom-title">Edit Product</div>
+                    <div class="custom-title">Edit Laboratory</div>
                    </div>
                 </div>
                     <div class="card-body">
                         <p class="text-muted">
-                            Enter the data of the edit Product.
+                            Enter the data of the edit Laboratory.
                         </p>
-                        <form action="{{route('admin.product.store')}}" method="POST">
+                        <form action="{{route('admin.laboratory.update', $laboratory->id)}}" method="POST">
                             @csrf
-                            <div class="form-group">
-                                <label for="CodeProduct">Code</label>
-                                    <input type="number" name="code" value="{{$product->code}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter code" required>
-                            </div>
+                            @method('PATCH')
                             <div class="form-group">
                                 <label for="CodeProduct">Name</label>
-                                    <input type="text" name="name" value="{{$product->name}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter name" required>
+                                    <input type="text" name="name" value="{{$laboratory->name}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter name" required>
                             </div>
                             <div class="form-group">
-                                <label for="CodeProduct">Description</label>
-                                    <input type="text" name="description" value="{{$product->code}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter description" required>
+                                <label for="SizeLaboratory">Size</label>
+                                <select class="custom-select" name="size" id="">
+                                    @foreach (\App\Models\Laboratory::SIZES as $key => $value)
+                                        <option value="{{ $key }}" {{ ( $key == $laboratory->size) ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="CodeProduct">Account Code</label>
-                                    <input type="text" name="accountcode" value="{{$product->accountcode}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter account code" required>
+                                <label for="AreaLaboratory">Area</label>
+                                <input type="text" name="area" class="form-control"  value="{{$laboratory->area}}" aria-describedby="nameHelp" placeholder="Enter area" required>
                             </div>
                             <div class="form-group">
-                                <label for="CodeProduct">Unit Price</label>
-                                    <input type="text" name="unitprice" value="{{$product->unitprice}}" class="form-control"  aria-describedby="nameHelp" placeholder="Enter unit price" required>
+                                <label for="AreaLaboratory">Semester</label>
+                                <input type="text" name="semester" class="form-control"  value="{{$laboratory->semester}}" aria-describedby="nameHelp" placeholder="Enter semester" required>
                             </div>
+                            <label for="CourseLaboratory">Course</label>
+
+                            @foreach ($areas as $area)
+                                <div class="form-group row">
+                                    <div class="col-sm-5">{{$area->name}} ({{count($area->courses)}})</div>
+                                    <div class="col-sm-7">
+                                        @forelse ($area->courses as $course)
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="courses[]" value="{{$course->id}}" {{ ( $key == $laboratory->courses->contains($course->id)) ? 'checked' : '' }}> {{$course->name}}
+                                                </label>
+                                            </div>
+                                        @empty
+                                            <p>Ops, this area does not have any courses registered :(</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            @endforeach
+
+
                             <div class="text-left">
                                 <button type="submit" class="btn btn-success">Update</button>
                             </div>

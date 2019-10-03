@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Laboratory extends Model
 {
+    const SIZES =[
+        "P" => 'P (20 alunos)',
+        "M" => 'M (30 alunos)',
+        "G" => 'G (40 alunos)',
+    ];
+
     protected $fillable = [
         'name','area','size','semester'
         //incluido o semester na tabela laboratórios

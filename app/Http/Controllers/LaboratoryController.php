@@ -100,8 +100,8 @@ class LaboratoryController extends Controller
     public function edit($id)
     {
         $laboratory = $this->laboratory->find($id);
-
-        return view('admin.laboratory.show', compact('laboratory'));
+        $areas = Area::all();
+        return view('admin.laboratory.edit', compact('laboratory', 'areas'));
     }
 
     /**
@@ -113,7 +113,18 @@ class LaboratoryController extends Controller
      */
     public function update(Request $request, Laboratory $laboratory)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required'],
+            'area' => ['required'],
+            'size' => ['required'],
+            'courses' => ['required'],
+            'semester'=> ['required']
+        ]);
+
+        $laboratory->update($validatedData);
+        $laboratory->courses()->sync($validatedData['courses']);
+        return redirect()->route('admin.laboratory.show',[$laboratory->id])
+            ->with('success','Laboratory updated successfully.');
     }
 
     /**
