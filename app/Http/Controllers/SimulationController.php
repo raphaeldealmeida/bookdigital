@@ -25,13 +25,11 @@ class SimulationController extends Controller
     public function index(Request $request)
     {
         $courses = $this->course->get();
-        if($course_id = $request->get('course_id')){
-            $course = $courses->find($course_id);
-            $courses->prepend($course);
-            $courses = $courses->unique();
-        }
+        $course_id = $request->get('course_id', null);
+        $course = $courses->find($request->get('course_id'));
+        $laboratories = (isset($course->laboratories))? $course->laboratories : [] ;
 
-        return view('simulation.index',compact('courses'));
+        return view('simulation.index',compact('courses', 'course_id', 'laboratories'));
     }
 
     public function report(Request $request)
